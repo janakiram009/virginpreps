@@ -1,0 +1,407 @@
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 0px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #667eea;
+        }
+        
+        .input-group label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background-color: white;
+            padding: 0 5px;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .country-code {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 0 15px;
+            border-radius: 10px 0 0 10px;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+            height: 54px;
+            font-size: 16px;
+        }
+        
+        .phone-input-container {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .phone-input {
+            flex-grow: 1;
+            border-radius: 0 10px 10px 0 !important;
+            height: 54px;
+        }
+        
+        .terms {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* OTP Verification Screen */
+        .otp-screen {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            background-color: white;
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .otp-screen.active {
+            left: 0;
+        }
+        
+        .otp-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .otp-input {
+            width: 47px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .otp-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+        
+        .resend-otp {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+        
+        .resend-otp a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn svg {
+            margin-right: 5px;
+        }
+        
+        .success-message {
+            text-align: center;
+            color: #4CAF50;
+            font-weight: 500;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %} -->
+    <div class="container">
+        <!-- Phone Number Screen -->
+        <div class="phone-screen">
+            <h2>Login</h2>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+            <div class="phone-input-container">
+                <div class="country-code">
+                    +91
+                </div>
+                <div class="input-group" style="flex-grow: 1;">
+                        {% render_field form.phone type="tel" id="phone" class="phone-input" placeholder=" " pattern="[0-9]{10}"  %}
+                    <!-- <input type="tel" id="phone" class="phone-input" placeholder=" " pattern="[0-9]{10}" data-bind-phone> -->
+                    <label for="phone">Mobile Number</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn" id="getOtpBtn">Get OTP</button>
+            </form>
+        
+            <p class="terms">
+                By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+        
+        <!-- OTP Verification Screen -->
+        <div class="otp-screen {% if is_otp_sent %}active{% endif %}" id="otpScreen">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <button class="back-btn" id="backBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back
+            </button>
+            
+            <h2>Verify OTP</h2>
+            <p style="text-align: center; color: #777; margin-bottom: 5px;">
+                We've sent a 6-digit code to <span id="displayPhone" style="font-weight: 500; color: #333;"></span>
+            </p>
+            
+            <div class="otp-container">
+                <input type="text" class="otp-input" maxlength="1" data-index="1" data-bind-otp1>
+                <input type="text" class="otp-input" maxlength="1" data-index="2" data-bind-otp2>
+                <input type="text" class="otp-input" maxlength="1" data-index="3" data-bind-otp3>
+                <input type="text" class="otp-input" maxlength="1" data-index="4" data-bind-otp4>
+                <input type="text" class="otp-input" maxlength="1" data-index="5" data-bind-otp5>
+                <input type="text" class="otp-input" maxlength="1" data-index="6" data-bind-otp6>
+            </div>
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                {% render_field form.phone type="hidden"  %}
+                {% render_field form.otp type='hidden' data-attr="{value: $otp1+$otp2+$otp3+$otp4+$otp5+$otp6}" %}
+            <button type="submit" class="btn" id="verifyOtpBtn">Verify</button>
+            </form>
+            <div class="resend-otp">
+                Didn't receive code? <a href="#" id="resendOtp">Resend OTP</a>
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <p style="margin-top: 10px;">Verification Successful!</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
+    <script>
+        
+        // Phone number screen
+        const getOtpBtn = document.getElementById('getOtpBtn');
+        const otpScreen = document.getElementById('otpScreen');
+        const displayPhone = document.getElementById('displayPhone');
+        const phoneInput = document.getElementById('phone');
+        const backBtn = document.getElementById('backBtn');
+        const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+        const resendOtp = document.getElementById('resendOtp');
+        const successMessage = document.getElementById('successMessage');
+        const otpInputs = document.querySelectorAll('.otp-input');
+        
+        // Generate random OTP (for demo purposes)
+        let generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        getOtpBtn.addEventListener('click', function() {
+            const phoneNumber = phoneInput.value;
+            if(phoneNumber.length === 10 && /^\d+$/.test(phoneNumber)) {
+                // Show OTP screen
+                otpScreen.classList.add('active');
+                displayPhone.textContent = `+91${phoneNumber}`;
+                
+                // Focus first OTP input
+                setTimeout(() => {
+                    document.querySelector('.otp-input').focus();
+                }, 500);
+                
+                // In a real app, you would send the OTP to the phone number
+                console.log(`OTP for +91${phoneNumber}: ${generatedOtp}`);
+            } else {
+                alert('Please enter a valid 10-digit phone number');
+            }
+        });
+        
+        // Back button
+        backBtn.addEventListener('click', function() {
+            otpScreen.classList.remove('active');
+        });
+        
+        // OTP input handling
+        otpInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if(this.value.length === 1) {
+                    const nextIndex = parseInt(this.dataset.index) + 1;
+                    const nextInput = document.querySelector(`.otp-input[data-index="${nextIndex}"]`);
+                    if(nextInput) nextInput.focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if(e.key === 'Backspace' && this.value.length === 0) {
+                    const prevIndex = parseInt(this.dataset.index) - 1;
+                    const prevInput = document.querySelector(`.otp-input[data-index="${prevIndex}"]`);
+                    if(prevInput) prevInput.focus();
+                }
+            });
+        });
+        
+        // Verify OTP
+        // verifyOtpBtn.addEventListener('click', function() {
+        //     let enteredOtp = '';
+        //     otpInputs.forEach(input => {
+        //         enteredOtp += input.value;
+        //     });
+            
+        //     if(enteredOtp.length === 6) {
+        //         if(enteredOtp === generatedOtp) {
+        //             // Successful verification
+        //             successMessage.style.display = 'block';
+        //             verifyOtpBtn.style.display = 'none';
+                    
+        //             // In a real app, you would proceed to the next step
+        //             setTimeout(() => {
+        //                 alert('Verification successful! Proceeding to your account...');
+        //             }, 1500);
+        //         } else {
+        //             alert('Invalid OTP. Please try again.');
+        //         }
+        //     } else {
+        //         alert('Please enter the complete 6-digit OTP');
+        //     }
+        // });
+        
+        // Resend OTP
+        // resendOtp.addEventListener('click', function(e) {
+        //     e.preventDefault();
+        //     generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+        //     console.log(`New OTP sent: ${generatedOtp}`);
+        //     alert('New OTP has been sent to your phone number');
+            
+        //     // Clear OTP inputs
+        //     otpInputs.forEach(input => {
+        //         input.value = '';
+        //     });
+            
+        //     // Focus first input
+        //     document.querySelector('.otp-input').focus();
+        // });
+
+    </script>
+</body>
+</html>
