@@ -5,8 +5,8 @@ __pycache__/
 *.pyd
 *.db
 *.sqlite3
-media/
-static/
+#media/
+#static/
 *.env
 oscar-venv/
 *.log
