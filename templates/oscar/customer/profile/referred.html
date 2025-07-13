@@ -8,7 +8,7 @@
             {% if my_referred %}
                 {% for referred in my_referred %}
                     <tr>
-                        <th>{{ referred.phone }} ---  {{referred.email}}</th>
+                        <th>{{ referred.phone }} - {{referred.first_name}}{{" "}}{{referred.last_name}}</th>
                     </tr>
                 {% endfor %}
             {% else %}

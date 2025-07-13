@@ -93,7 +93,7 @@ class ReferredListView(generic.ListView):
         
         # Add your custom context data
         my_referred = self.get_queryset()
-        context['page_title'] = 'My Referred IDs'
+        context['page_title'] = 'Referred By Me'
         context['my_referred'] = my_referred
         context['count'] = my_referred.count()
         
