@@ -2,7 +2,7 @@ from django.views.generic import FormView
 from django.shortcuts import redirect
 from django.core.cache import cache
 from django.contrib import messages
-from .forms import PhoneOTPForm
+from .forms import PhoneOTPForm, ProfileForm
 from .utils import send_sms_via_fast2sms
 import random
 from django.shortcuts import render
@@ -45,27 +45,14 @@ class OTPLoginView(FormView):
 
 
 from oscar.apps.customer.views import ProfileView as CoreProfileView
-from user.models import Wallet
+from oscar.apps.customer.views import ProfileUpdateView as CoreProfileUpdateView
+from rewards.models import Wallet
 
 class ProfileView(CoreProfileView):
-    # def get_context_data(self, **kwargs):
-    #     ctx = super().get_context_data(**kwargs)
-    #     # Add wallet to context
-    #     try:
-    #         ctx['wallet'] = Wallet.objects.get(user=self.request.user)
-    #     except Wallet.DoesNotExist:
-    #         ctx['wallet'] = None
-
-        #     my_referred = User.objects.filter(referred_by=self.request.user)
-        # ctx['my_referred'] = my_referred
-        # ctx['referral_count'] = my_referred.count()
-
-    #     return ctx
 
     def get_profile_fields(self, user):
         field_data = super().get_profile_fields(user)
         
-        # Add wallet fields to profile display
         try:
             wallet = Wallet.objects.get(user=user)
             field_data.extend([
@@ -76,12 +63,17 @@ class ProfileView(CoreProfileView):
                 }
             ])
         except Wallet.DoesNotExist:
+            print("Wallet does not exist for user:", user)
             pass
             
         return field_data
+    
+    
+class ProfileUpdateView(CoreProfileUpdateView):
+    form_class = ProfileForm  # Use the custom UserForm defined in forms.py
+
 
 from django.views import generic
-
 class ReferredListView(generic.ListView):
     template_name = "oscar/customer/profile/referred.html"
     # context_object_name = "my_referred"

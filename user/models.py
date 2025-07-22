@@ -57,70 +57,58 @@ class User(OscarAbstractUser):
     
 
 
-class Wallet(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='wallet')
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00)])
-    last_updated = models.DateTimeField(auto_now=True)
+# class Wallet(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='wallet')
+#     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, validators=[MinValueValidator(0.00)])
+#     last_updated = models.DateTimeField(auto_now=True)
 
-    @transaction.atomic
-    def credit(self, amount, description, order_number=None):
-        if amount <= 0:
-            raise ValidationError("Credit amount must be positive")
-        self.balance += amount
-        self.save()
+#     @transaction.atomic
+#     def credit(self, amount, description, order_number=None):
+#         if amount <= 0:
+#             raise ValidationError("Credit amount must be positive")
+#         self.balance += amount
+#         self.save()
 
-        WalletTransaction.objects.create(
-            wallet=self,
-            amount=amount,
-            transaction_type='CREDIT',
-            description=description,
-            order_number=order_number
-        )
+#         WalletTransaction.objects.create(
+#             wallet=self,
+#             amount=amount,
+#             transaction_type='CREDIT',
+#             description=description,
+#             order_number=order_number
+#         )
    
-    @transaction.atomic
-    def debit(self, amount, description, order_number=None):
-        if amount <= 0:
-            raise ValidationError("Debit amount must be positive")
-        if self.balance < amount:
-            raise ValidationError("Insufficient balance")
-        self.balance -= amount
-        self.save()
+#     @transaction.atomic
+#     def debit(self, amount, description, order_number=None):
+#         if amount <= 0:
+#             raise ValidationError("Debit amount must be positive")
+#         if self.balance < amount:
+#             raise ValidationError("Insufficient balance")
+#         self.balance -= amount
+#         self.save()
 
-        WalletTransaction.objects.create(
-            wallet=self,
-            amount=amount,
-            transaction_type='DEBIT',
-            description=description,
-            order_number=order_number
-        )
+#         WalletTransaction.objects.create(
+#             wallet=self,
+#             amount=amount,
+#             transaction_type='DEBIT',
+#             description=description,
+#             order_number=order_number
+#         )
     
-    def __str__(self):
-        return f"{self.user.username}'s Wallet: ${self.balance}"
+#     def __str__(self):
+#         return f"{self.user.username}'s Wallet: ${self.balance}"
     
 
 
-class WalletTransaction(models.Model):
-    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='transactions')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    transaction_type = models.CharField(max_length=10, choices=[('CREDIT', 'Credit'), ('DEBIT', 'Debit')])
-    description = models.CharField(max_length=255)
-    order_number = models.CharField(max_length=128, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+# class WalletTransaction(models.Model):
+#     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='transactions')
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     transaction_type = models.CharField(max_length=10, choices=[('CREDIT', 'Credit'), ('DEBIT', 'Debit')])
+#     description = models.CharField(max_length=255)
+#     order_number = models.CharField(max_length=128, null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.transaction_type} of ${self.amount} for {self.wallet.user.username}"
-
-########################################
-# Signals to create wallet automatically
-########################################
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-@receiver(post_save, sender=User)
-def create_user_wallet(sender, instance, created, **kwargs):
-    if created:
-        Wallet.objects.create(user=instance, balance=100)
-
+#     def __str__(self):
+#         return f"{self.transaction_type} of ${self.amount} for {self.wallet.user.username}"
 
 
 

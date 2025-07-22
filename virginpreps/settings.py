@@ -47,10 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
 
-    'user.apps.UserConfig',
+    'user.apps.UserConfig', # custom app for user management
     'oscar.config.Shop',
     'oscar.apps.analytics.apps.AnalyticsConfig',
-    'oscar.apps.checkout.apps.CheckoutConfig',
+    'apps.checkout.apps.CheckoutConfig', # custom app for checkout process
     'oscar.apps.address.apps.AddressConfig',
     'oscar.apps.shipping.apps.ShippingConfig',
     'oscar.apps.catalogue.apps.CatalogueConfig',
@@ -60,9 +60,8 @@ INSTALLED_APPS = [
     'oscar.apps.basket.apps.BasketConfig',
     'oscar.apps.payment.apps.PaymentConfig',
     'oscar.apps.offer.apps.OfferConfig',
-    'oscar.apps.order.apps.OrderConfig',
-    ###
-    'apps.customer.apps.CustomerConfig',
+    'apps.order.apps.OrderConfig', # custom app for order management
+    'apps.customer.apps.CustomerConfig', # custom app for customer management
     'oscar.apps.search.apps.SearchConfig',
     'oscar.apps.voucher.apps.VoucherConfig',
     'oscar.apps.wishlists.apps.WishlistsConfig',
@@ -79,6 +78,8 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig',
     'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
+
+    'rewards.apps.RewardsConfig',  # custom app for rewards management
 
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
@@ -226,13 +227,15 @@ OSCAR_SHOP_TAGLINE = "Your Family Farmer"
 OSCAR_DEFAULT_CURRENCY = 'INR'
 
 OSCAR_ALLOW_ANON_CHECKOUT = True
-
+OSCAR_ORDER_NUMBER_GENERATOR = 'apps.order.utils.OrderNumberGenerator'
 OSCAR_INITIAL_ORDER_STATUS = 'Pending'
 OSCAR_INITIAL_LINE_STATUS = 'Pending'
 OSCAR_ORDER_STATUS_PIPELINE = {
     'Pending': ('Being processed', 'Cancelled',),
-    'Being processed': ('Processed', 'Cancelled',),
+    'Being processed': ('Shipped', 'Cancelled',),
+    'Shipped': ('Delivered', 'Cancelled',),
     'Cancelled': (),
+    'Complete': (),
 }
 
 # Haystack configuration
@@ -242,3 +245,11 @@ HAYSTACK_CONNECTIONS = {
         'PATH': BASE_DIR / 'whoosh_index'
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'localhost'  # Or your SMTP server
+EMAIL_PORT = 25           # Or your SMTP port
+EMAIL_HOST_USER = ''      # Set if needed
+EMAIL_HOST_PASSWORD = ''  # Set if needed
+EMAIL_USE_TLS = False     # Set True if using TLS
+EMAIL_USE_SSL = False     # Set True if using SSL

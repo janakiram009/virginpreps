@@ -8,6 +8,6 @@ __pycache__/
 #media/
 #static/
 *.env
-oscar-venv/
+venv-oscar/
 *.log
 *.zip

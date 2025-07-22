@@ -1,6 +1,6 @@
 # admin.py
 from django.contrib import admin
-from user.models import User, Wallet
+from rewards.models import Wallet
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext as _
@@ -50,13 +50,13 @@ class UserAdmin(DjangoUserAdmin):
 # admin.site.register(User, UserAdmin)
 
 # Register Wallet separately as well
-@admin.register(Wallet)
-class WalletAdmin(admin.ModelAdmin):
-    list_display = ('user', 'balance', 'last_updated')
-    list_select_related = ('user',)
-    search_fields = ('user__phone', 'user__email')
-    readonly_fields = ('last_updated',)
-    list_filter = ('user', 'last_updated')
+# @admin.register(Wallet)
+# class WalletAdmin(admin.ModelAdmin):
+#     list_display = ('user', 'balance', 'last_updated')
+#     list_select_related = ('user',)
+#     search_fields = ('user__phone', 'user__email')
+#     readonly_fields = ('last_updated',)
+#     list_filter = ('user', 'last_updated')
 
 # @admin.register(User)
 # class UserAdmin(DjangoUserAdmin):
