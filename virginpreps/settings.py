@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'oscar.config.Shop',
     'oscar.apps.analytics.apps.AnalyticsConfig',
     'apps.checkout.apps.CheckoutConfig', # custom app for checkout process
-    'oscar.apps.address.apps.AddressConfig',
+    'apps.address.apps.AddressConfig', # custom app for address management
     'oscar.apps.shipping.apps.ShippingConfig',
     'oscar.apps.catalogue.apps.CatalogueConfig',
     'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig',
@@ -226,7 +226,7 @@ OSCAR_SHOP_TAGLINE = "Your Family Farmer"
 
 OSCAR_DEFAULT_CURRENCY = 'INR'
 
-OSCAR_ALLOW_ANON_CHECKOUT = True
+OSCAR_ALLOW_ANON_CHECKOUT = False
 OSCAR_ORDER_NUMBER_GENERATOR = 'apps.order.utils.OrderNumberGenerator'
 OSCAR_INITIAL_ORDER_STATUS = 'Pending'
 OSCAR_INITIAL_LINE_STATUS = 'Pending'
