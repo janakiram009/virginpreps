@@ -9,5 +9,6 @@ __pycache__/
 #static/
 *.env
 venv-oscar/
+venv/
 *.log
 *.zip
