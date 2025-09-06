@@ -19,8 +19,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include(customer_urls)),
     path("rewards/", include("rewards.urls")),
-    path("", include(apps.get_app_config("oscar").urls[0])),
-    path("grocee/", grocee, name="grocee"),
+    # path("", include(apps.get_app_config("oscar").urls[0])),
+    # path("grocee/", grocee, name="grocee"),
+    path("", grocee, name="grocee"),
 ]
 
 from django.conf import settings
