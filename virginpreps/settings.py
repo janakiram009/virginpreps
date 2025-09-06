@@ -196,8 +196,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = "staticfiles"
+#STATIC_URL = "static/"
+#STATIC_ROOT = "staticfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -255,3 +255,17 @@ EMAIL_HOST_USER = ""  # Set if needed
 EMAIL_HOST_PASSWORD = ""  # Set if needed
 EMAIL_USE_TLS = False  # Set True if using TLS
 EMAIL_USE_SSL = False  # Set True if using SSL
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+ALLOWED_HOSTS += ['virginpreps.com', 'www.virginpreps.com', '210.79.129.39']
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
