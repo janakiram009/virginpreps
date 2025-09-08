@@ -15,9 +15,19 @@ ALLOWED_HOSTS = ["virginpreps.com", "www.virginpreps.com", "210.79.129.39"]
 #     }
 # }
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 # Static files for production
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+print("This is production settings file")
