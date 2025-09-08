@@ -17,11 +17,11 @@ def grocee(request):
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
-    path("accounts/", include(customer_urls)),
-    path("rewards/", include("rewards.urls")),
-    path("oscar/", include(apps.get_app_config("oscar").urls[0])),
-    # path("grocee/", grocee, name="grocee"),
-    path("", grocee, name="grocee"),
+    path("accounts/", include((customer_urls))),
+    path("rewards/", include(("rewards.urls", "rewards"))),
+    path("", include(apps.get_app_config("oscar").urls[0])),
+    path("grocee/", grocee, name="grocee"),
+    # path("", grocee, name="grocee"),
 ]
 
 from django.conf import settings
