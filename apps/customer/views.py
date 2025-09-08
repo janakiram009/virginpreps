@@ -7,6 +7,9 @@ from .utils import send_sms_via_fast2sms
 import random
 from django.shortcuts import render
 from django.contrib.auth import login, get_user_model
+from django.urls import reverse
+from urllib.parse import urlparse
+
 
 User = get_user_model()
 
@@ -43,7 +46,18 @@ class OTPLoginView(FormView):
             print("otp matched")
             user, _ = User.objects.get_or_create(phone=phone)
             login(self.request, user)
-            return redirect("/oscar/checkout/shipping-address/")
+            referer = self.request.META.get("HTTP_REFERER")
+            fallback_url = reverse("home")  # Replace 'home' with your URL pattern name
+
+            # Validate referer for security
+            if referer:
+                parsed_url = urlparse(referer)
+                if parsed_url.netloc and parsed_url.netloc != self.request.get_host():
+                    referer = None  # Reject external URLs
+
+            # Redirect to referer or fallback
+            return redirect(fallback_url)
+            # return redirect(referer or fallback_url)
         else:
             print("otp not matched")
             form.add_error("otp", "Invalid OTP")
