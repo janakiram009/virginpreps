@@ -1,7 +1,13 @@
 import os
 import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', '../virginpreps.settings')
+from django.conf import settings
+
+if settings.DEBUG:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "virginpreps.settings.development")
+else:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "virginpreps.settings.production")
+
 django.setup()
 
 from oscar.apps.catalogue.categories import create_from_breadcrumbs
@@ -17,7 +23,6 @@ categories = [
     "Pulses & Lentils > Split > Without Skin",
     "Pulses & Lentils > Broken",
     "Pulses & Lentils > Flour",
-    
     "Rice",
     "Rice > White",
     "Rice > White > Regular",
@@ -25,17 +30,14 @@ categories = [
     "Rice > Brown",
     "Rice > Red/Black",
     "Rice > Parboiled",
-    
     "Wheat & Atta",
     "Wheat & Atta > Whole Wheat",
     "Wheat & Atta > Multigrain",
     "Wheat & Atta > Fortified",
-    
     "Millets",
     "Millets > Foxtail",
     "Millets > Barnyard",
     "Millets > Little",
-    
     # ===== COOKING ESSENTIALS =====
     "Oils",
     "Oils > Cold-Pressed",
@@ -44,12 +46,10 @@ categories = [
     "Oils > Refined",
     "Oils > Refined > Sunflower",
     "Oils > Refined > Soybean",
-    
     "Ghee & Butter",
     "Ghee & Butter > Cow",
     "Ghee & Butter > Buffalo",
     "Ghee & Butter > Flavored",
-    
     "Spices",
     "Spices > Whole Spices",
     "Spices > Whole Spices > Cumin",
@@ -58,7 +58,6 @@ categories = [
     "Spices > Powdered Spices > Turmeric",
     "Spices > Powdered Spices > Red Chili",
     "Spices > Blended Masalas",
-    
     # ===== SWEETENERS =====
     "Sugar & Sweeteners",
     "Sugar & Sweeteners > White Sugar",
@@ -67,20 +66,17 @@ categories = [
     "Sugar & Sweeteners > Jaggery > Solid",
     "Sugar & Sweeteners > Jaggery > Powder",
     "Sugar & Sweeteners > Honey",
-    
     # ===== DAIRY =====
     "Milk",
     "Milk > Cow Milk",
     "Milk > Buffalo Milk",
     "Milk > Toned",
     "Milk > Full Cream",
-    
     "Dairy Products",
     "Dairy Products > Paneer",
     "Dairy Products > Yogurt",
     "Dairy Products > Cheese",
     "Dairy Products > Buttermilk",
-    
     # ===== NUTS & DRY FRUITS =====
     "Nuts",
     "Nuts > Almonds",
@@ -88,12 +84,10 @@ categories = [
     "Nuts > Almonds > Sliced",
     "Nuts > Cashews",
     "Nuts > Walnuts",
-    
     "Dry Fruits",
     "Dry Fruits > Raisins",
     "Dry Fruits > Dates",
     "Dry Fruits > Figs",
-    
     # ===== FRESH PRODUCE =====
     "Vegetables",
     "Vegetables > Leafy Greens",
@@ -103,7 +97,6 @@ categories = [
     "Vegetables > Root Vegetables > Potato",
     "Vegetables > Root Vegetables > Onion",
     "Vegetables > Gourds",
-    
     "Fruits",
     "Fruits > Tropical",
     "Fruits > Tropical > Banana",
@@ -111,7 +104,6 @@ categories = [
     "Fruits > Citrus",
     "Fruits > Citrus > Orange",
     "Fruits > Citrus > Lemon",
-    
     # ===== READY-TO-EAT =====
     "Ready-to-Eat",
     "Ready-to-Eat > Breakfast Cereals",
@@ -121,11 +113,9 @@ categories = [
     "Ready-to-Eat > Snacks",
     "Ready-to-Eat > Snacks > Namkeen",
     "Ready-to-Eat > Snacks > Biscuits",
-    
     # ===== BEVERAGES =====
     "Beverages",
     "Beverages > Health Drinks",
-    
     # ===== INTERNATIONAL =====
     "International Foods",
     "International Foods > Pasta",
@@ -133,7 +123,7 @@ categories = [
     "International Foods > Pasta > Spaghetti",
     "International Foods > Sauces",
     "International Foods > Sauces > Pasta Sauce",
-    "International Foods > Sauces > Soy Sauce"
+    "International Foods > Sauces > Soy Sauce",
 ]
 
 
