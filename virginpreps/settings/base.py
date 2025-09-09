@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig",
     "oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig",
     "rewards.apps.RewardsConfig",  # custom app for rewards management
+    "management_commands",  # custom app for management commands
     # 3rd-party apps that oscar depends on
     "widget_tweaks",
     "haystack",
