@@ -3,6 +3,8 @@ import django
 
 from django.conf import settings
 
+settings.configure()
+print(settings.DEBUG)
 if settings.DEBUG:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "virginpreps.settings.development")
 else:
