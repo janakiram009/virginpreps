@@ -1,60 +1,74 @@
-{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE|default:"en-gb" }}" class="{% block html_class %}no-js{% endblock %}">
-    <head>
-        <title>{% block title %}{{ shop_name }} - {{ shop_tagline }}{% endblock %}</title>
-
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta name="created" content="{% now "jS M Y h:i" %}" />
-        <meta name="description" content="{% block description %}{% endblock %}" />
-        <meta name="viewport" content="{% block viewport %}width=device-width{% endblock %}" />
-        <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
- 
-
-        {% block favicon %}
-            <link rel="shortcut icon" href="{% static 'oscar/favicon.ico' %}" />
-        {% endblock %}
-
-        {# Block where global CSS will go. #}
-        {% block styles %}{% endblock %}
-
-        {# Additional CSS - specific to certain pages #}
-        {% block extrastyles %}{% endblock %}
-
-        {% block extrahead %}{% endblock %}
-
-        {% block tracking %}
-            {# Default to using Google analytics #}
-            {% include "oscar/partials/google_analytics.html" %}
-        {% endblock %}
-    </head>
-
-    <body id="{% block body_id %}default{% endblock %}" class="{% block body_class %}default{% endblock %}">
-        {# Main content goes in this 'layout' block #}
-        {% block layout %}{% endblock %}
-
-        {# Scripts loaded from a CDN. #}
-        {% block cdn_scripts %}
-            <!-- jQuery -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery.min.js" %}"><\/script>')</script>
-        {% endblock %}
-
-        {# Local scripts #}
-        {% block scripts %}
-        {% endblock %}
-
-        {# Additional JS scripts #}
-        {% block extrascripts %}{% endblock %}
-
-        {# Block for body onload functions #}
-        <script>
-            $(function() {
-                {% block onbodyload %}{% endblock %}
-            });
-        </script>
-
-        {# Page meta-data - this is populated by the 'metadata' template context processor #}
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Grocee - Organic Food HTML Template</title>
+    <meta name="description" content="Morden Bootstrap HTML5 Template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
+    <!-- ======= All CSS Plugins here ======== -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/swiper-bundle.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/glightbox.min.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+    <!-- Plugin css -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/bootstrap.min.css' %}" />
+    <!-- Custom Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+  </head>
+  <body>
+    <!-- Start preloader -->
+    <c-preloader />
+    <!-- End preloader -->
+    <!-- Start header area -->
+    <c-header />
+    <!-- End header area -->
+    <main class="main__content_wrapper">
+      <!-- Start slider section -->
+      <c-slider />
+      <!-- End slider section -->
+      <!-- Start banner section -->
+      <c-banner />
+      <!-- End banner section -->
+      <!-- Start categories product section -->
+      <c-categories />
+      <!-- End categories product section -->
+      <!-- Start product section -->
+      <c-product />
+      <!-- End product section -->
+      <!-- Start deal product section -->
+      <c-deal-product />
+      <!-- End deal product section -->
+      <!-- Start counterup banner section -->
+      <c-counterup-banner />
+      <!-- End counterup banner section -->
+      <!-- Start grid product section -->
+      <c-grid-product />
+      <!-- End grid product section -->
+      <!-- Start blog section -->
+      <c-blog />
+      <!-- End blog section -->
+      <!-- Start shipping section -->
+      <c-shipping />
+      <!-- End shipping section -->
+    </main>
+    <!-- Start footer section -->
+    <c-footer />
+    <!-- End footer section -->
+    <!-- Quickview Wrapper -->
+    <c-quickview />
+    <!-- Quickview Wrapper End -->
+    <!-- Start News letter popup -->
+    <c-newsletter-popup />
+    <!-- End News letter popup -->
+    <!-- Scroll top bar -->
+    <c-scroll-top />
+    <!-- All Script JS Plugins here -->
+    <script src="{% static 'assets/js/vendor/popper.js' %}" defer="defer"></script>
+    <script src="{% static 'assets/js/vendor/bootstrap.min.js' %}" defer="defer"></script>
+    <script src="{% static 'assets/js/plugins/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/glightbox.min.js' %}"></script>
+    <!-- Customscript js -->
+    <script src="{% static 'assets/js/script.js' %}"></script>
+  </body>
 </html>
