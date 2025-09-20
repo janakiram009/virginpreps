@@ -1,0 +1,473 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Srinivasa's Nature - Organic Vegetable Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Open Sans', sans-serif;
+        color: #333;
+        line-height: 1.6;
+        background-color: #f9fbf7;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      /* Header Styles */
+      header {
+        background: linear-gradient(to right, #8bc34a, #cddc39);
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      
+      .logo h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        color: #fff;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      
+      .contact-info {
+        text-align: right;
+      }
+      
+      .contact-info p {
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      
+      /* Hero Section with Banner Image */
+      .hero {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+      }
+      
+      .banner-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      
+      /* Placeholder for banner image */
+      .banner-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, #8bc34a, #cddc39);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+      
+      .banner-placeholder h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      
+      .banner-placeholder p {
+        font-size: 1.2rem;
+        max-width: 600px;
+      }
+      
+      .hero-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 20px;
+      }
+      
+      .hero-content h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 700px;
+      }
+      
+      .price-tag {
+        background-color: #ffeb3b;
+        color: #333;
+        font-weight: 700;
+        font-size: 1.8rem;
+        padding: 15px 40px;
+        border-radius: 50px;
+        display: inline-block;
+        margin: 20px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      .cta-button {
+        display: inline-block;
+        background-color: #ff5722;
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-decoration: none;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      .cta-button:hover {
+        background-color: #e64a19;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Features Section */
+      .features {
+        padding: 60px 0;
+        background-color: #fff;
+      }
+      
+      .section-title {
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        color: #33691e;
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+      }
+      
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      
+      .feature-card {
+        background-color: #f1f8e9;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+      
+      .feature-icon {
+        font-size: 3rem;
+        color: #8bc34a;
+        margin-bottom: 20px;
+      }
+      
+      .feature-card h3 {
+        font-family: 'Montserrat', sans-serif;
+        color: #33691e;
+        margin-bottom: 15px;
+      }
+      
+      /* How It Works */
+      .how-it-works {
+        padding: 60px 0;
+        background-color: #f9fbf7;
+      }
+      
+      .steps {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 40px;
+      }
+      
+      .step {
+        text-align: center;
+        width: 250px;
+        margin: 20px;
+      }
+      
+      .step-number {
+        background-color: #8bc34a;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 auto 20px;
+      }
+      
+      /* Testimonials */
+      .testimonials {
+        padding: 60px 0;
+        background-color: #fff;
+      }
+      
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      
+      .testimonial-card {
+        background-color: #f1f8e9;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+      
+      .testimonial-text {
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+      
+      .testimonial-author {
+        font-weight: 600;
+        color: #558b2f;
+      }
+      
+      /* Footer */
+      footer {
+        background: linear-gradient(to right, #8bc34a, #cddc39);
+        padding: 40px 0;
+        color: white;
+        text-align: center;
+      }
+      
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .footer-logo {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      
+      .footer-contact {
+        margin-bottom: 20px;
+      }
+      
+      .footer-contact p {
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+      
+      .website {
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        margin-top: 10px;
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+      
+        .contact-info {
+          text-align: center;
+          margin-top: 15px;
+        }
+      
+        .hero-content h2 {
+          font-size: 2.2rem;
+        }
+      
+        .banner-placeholder h2 {
+          font-size: 2rem;
+        }
+      
+        .steps {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1>Srinivasa's Nature</h1>
+          </div>
+          <div class="contact-info">
+            <p>888 616 4949</p>
+            <p>888 616 5050</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section with Banner -->
+    <section class="hero">
+      <!-- REPLACE THE DIV BELOW WITH YOUR IMAGE -->
+      <img src="{% static 'assets/img/slider/vegetables-delivery.jpg' %}" alt="Fresh Organic Vegetables" class="banner-image" />
+      <!-- Placeholder (remove when adding your image) -->
+      {% comment %} <div class="banner-placeholder">
+        <h2>Banner Image Placeholder</h2>
+        <p>Replace this div with your actual banner image using the img tag above</p>
+      </div>
+
+      <div class="hero-content">
+        <h2>FRESH ORGANIC VEGETABLES DELIVERED TO YOUR DOORSTEP!</h2>
+        <p>Experience the goodness of farm-fresh, organic vegetables every week</p>
+        <div class="price-tag">Only Rs. 250 per week</div>
+        <a href="#order" class="cta-button">ORDER NOW</a>
+      </div> {% endcomment %}
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🌱</div>
+            <h3>100% Organic</h3>
+            <p>Our vegetables are grown without any pesticides or chemicals, ensuring you get the healthiest produce.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚚</div>
+            <h3>Free Delivery</h3>
+            <p>We deliver fresh vegetables right to your doorstep at no extra cost.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⏰</div>
+            <h3>Save Time</h3>
+            <p>No more crowded markets. Get your weekly vegetables without leaving your home.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Place Your Order</h3>
+            <p>Call us or order online to schedule your weekly delivery.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>We Pack Carefully</h3>
+            <p>Our experts select the freshest vegetables for your box.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Receive Delivery</h3>
+            <p>Get your fresh vegetables delivered at your convenient time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"The quality of vegetables from Srinivasa's Nature is exceptional! I've been using their service for 3 months now and my family loves it."</p>
+            <p class="testimonial-author">- Priya S., Regular Customer</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Their weekly delivery service has saved me so much time. The vegetables are always fresh and reasonably priced."</p>
+            <p class="testimonial-author">- Ramesh K., Working Professional</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"I was skeptical about online vegetable delivery, but Srinivasa's Nature has won me over with their quality and service."</p>
+            <p class="testimonial-author">- Lakshmi M., Home Maker</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="features" style="background-color: #e8f5e9;">
+      <div class="container">
+        <h2 class="section-title">Order Your Vegetable Box Today!</h2>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+          <p style="font-size: 1.2rem; margin-bottom: 30px;">Get fresh, organic vegetables delivered to your home every week for just Rs. 250. Our weekly box contains a selection of seasonal vegetables perfect for a family of four.</p>
+          <div class="price-tag">Only Rs. 250 per week</div>
+          <p style="margin-top: 20px; font-weight: 600;">Call us now to place your order!</p>
+          <div style="font-size: 1.5rem; font-weight: 700; color: #33691e; margin: 20px 0;">
+            <p>888 616 4949</p>
+            <p>888 616 5050</p>
+          </div>
+          <a href="#" class="cta-button">CALL TO ORDER</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">Srinivasa's Nature</div>
+          <div class="footer-contact">
+            <p>888 616 4949 | 888 616 5050</p>
+            <a href="http://www.virginpreps.com" class="website">www.virginpreps.com</a>
+          </div>
+          <p>© 2023 Srinivasa's Nature. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
