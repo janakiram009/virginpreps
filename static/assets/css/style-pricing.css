@@ -1,0 +1,167 @@
+/* Pricing Section Styles */
+/* * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background-color: #f8f9fa;
+        color: #333;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      } */
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #718096;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pricing-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card.popular {
+    border-top: 4px solid #4c6ef5;
+    position: relative;
+}
+
+.popular-tag {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: #4c6ef5;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.plan-name {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4c6ef5;
+    margin-bottom: 20px;
+}
+
+.price span {
+    font-size: 1rem;
+    color: #718096;
+    font-weight: 400;
+}
+
+.plan-description {
+    color: #718096;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.features {
+    margin-bottom: 30px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.feature svg {
+    width: 20px;
+    height: 20px;
+    color: #4caf50;
+    margin-right: 10px;
+}
+
+.feature-text {
+    color: #4a5568;
+}
+
+.cta-button {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background: #4c6ef5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+    background: #3b5bdb;
+}
+
+.cta-button.outline {
+    background: transparent;
+    border: 2px solid #4c6ef5;
+    color: #4c6ef5;
+}
+
+.cta-button.outline:hover {
+    background: #4c6ef5;
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .pricing-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pricing-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/vendor/bootstrap.min.css' %}" />
     <!-- Custom Style CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style-pricing.css' %}" />
   </head>
   <body>
     <!-- Start preloader -->
@@ -29,7 +30,7 @@
     {% endblock %}
 
     <!-- Start footer section -->
-    <c-footer />
+    {% comment %} <c-footer /> {% endcomment %}
     <!-- End footer section -->
     <!-- Scroll top bar -->
     <c-scroll-top />
