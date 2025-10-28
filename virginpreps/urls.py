@@ -33,29 +33,29 @@ urlpatterns = [
     path("veggiesestimation/", veggiesestimation, name="veggiesestimation"),
 ]
 
-from . import views
+# from . import views
 
-urlpatterns += [
-    path("vegetables/", views.VegetableListView.as_view(), name="vegetable_list"),
-    path("vegetables/add/", views.VegetableCreateView.as_view(), name="vegetable_add"),
-    path(
-        "vegetables/<int:pk>/update/",
-        views.VegetableUpdateView.as_view(),
-        name="vegetable_update",
-    ),
-    path("customers/", views.CustomerListView.as_view(), name="customer_list"),
-    path("customers/add/", views.CustomerCreateView.as_view(), name="customer_add"),
-    path(
-        "customers/<int:pk>/update/",
-        views.CustomerUpdateView.as_view(),
-        name="customer_update",
-    ),
-    path(
-        "customers/<int:pk>/blacklist/",
-        views.BlacklistUpdateView.as_view(),
-        name="blacklist_update",
-    ),
-]
+# urlpatterns += [
+#     path("vegetables/", views.VegetableListView.as_view(), name="vegetable_list"),
+#     path("vegetables/add/", views.VegetableCreateView.as_view(), name="vegetable_add"),
+#     path(
+#         "vegetables/<int:pk>/update/",
+#         views.VegetableUpdateView.as_view(),
+#         name="vegetable_update",
+#     ),
+#     path("customers/", views.CustomerListView.as_view(), name="customer_list"),
+#     path("customers/add/", views.CustomerCreateView.as_view(), name="customer_add"),
+#     path(
+#         "customers/<int:pk>/update/",
+#         views.CustomerUpdateView.as_view(),
+#         name="customer_update",
+#     ),
+#     path(
+#         "customers/<int:pk>/blacklist/",
+#         views.BlacklistUpdateView.as_view(),
+#         name="blacklist_update",
+#     ),
+# ]
 
 
 from django.conf import settings
