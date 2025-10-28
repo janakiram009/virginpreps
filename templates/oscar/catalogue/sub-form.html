@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>VirginPreps Vegetable Subscription</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 20px; color: #222; }
+    h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+    .sub { color: #d33; margin-top: 0; }
+    fieldset { border: 1px solid #ccc; padding: 16px; margin-bottom: 16px; }
+    legend { font-weight: 600; }
+    label { display: block; margin: 8px 0 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #ddd; padding: 8px; font-size: 0.95rem; }
+    th { background: #f7f7f7; }
+    .note { font-size: 0.92rem; color: #444; }
+    .muted { color: #666; font-size: 0.9rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { border: 1px solid #bbb; padding: 6px 10px; border-radius: 16px; cursor: pointer; user-select: none; }
+    .chip input { margin-right: 6px; }
+    .total { font-weight: 600; }
+    button { background: #0a8f3c; color: #fff; border: 0; padding: 12px 16px; border-radius: 6px; cursor: pointer; }
+    button:disabled { background: #a9a9a9; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <h1>VirginPreps Vegetable Subscription Form</h1>
+  <p class="sub">Straight from the source. Straight to your kitchen.</p>
+
+  <form id="subscriptionForm" onsubmit="return handleSubmit(event)">
+    <fieldset>
+      <legend>Subscriber details</legend>
+      <div class="grid">
+        <div>
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" required />
+        </div>
+        <div>
+          <label for="phone">Phone (WhatsApp preferred)</label>
+          <input id="phone" name="phone" type="tel" required />
+        </div>
+      </div>
+      <label for="address">Delivery address</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
+      <div class="row">
+        <div>
+          <label for="landmark">Landmark</label>
+          <input id="landmark" name="landmark" type="text" />
+        </div>
+        <div>
+          <label for="pincode">Pincode</label>
+          <input id="pincode" name="pincode" type="text" pattern="\\d{6}" placeholder="6-digit" required />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Plan selection</legend>
+      <div class="grid">
+        <div>
+          <label>Pack</label>
+          <select id="pack" name="pack" required onchange="renderQuantities()">
+            <option value="">Select a pack</option>
+            <option value="small">Base Pack — ₹599/week</option>
+            {% comment %} <option value="medium">Medium Pack — ₹749/week</option>
+            <option value="big">Big Pack — ₹899/week</option> {% endcomment %}
+          </select>
+        </div>
+        <div>
+          <label>Delivery frequency</label>
+          <select id="frequency" name="frequency" required>
+            <option value="weekly">Weekly (2 deliveries)</option>
+            {% comment %} <option value="biweekly">Bi-weekly (1 delivery)</option> {% endcomment %}
+          </select>
+        </div>
+        <div>
+          <label>Start date</label>
+          <input id="startDate" name="startDate" type="date" required />
+        </div>
+      </div>
+      <p class="muted">Each pack includes all listed items with quantities shown below; greens and chillies are delivered twice per week where indicated.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Included items & quantities</legend>
+      <table>
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Item</th>
+            <th>Small</th>
+            <th>Medium</th>
+            <th>Big</th>
+          </tr>
+        </thead>
+        <tbody id="qtyTableBody"></tbody>
+      </table>
+    </fieldset>
+
+    <fieldset>
+      <legend>Do not include (up to 5)</legend>
+      <p class="note">Tick vegetables to exclude (allergy/dislike). Up to 5 can be excluded per week; we’ll substitute seasonal alternatives.</p>
+      <div class="chips" id="excludeChips"></div>
+      <p class="muted" id="excludeCount">0 of 5 selected</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Delivery preferences</legend>
+      <div class="grid">
+        <div>
+          <label for="slot">Preferred slot</label>
+          <select id="slot" name="slot">
+            <option>6–9 AM</option>
+            <option>9 AM–12 PM</option>
+            <option>5–8 PM</option>
+          </select>
+        </div>
+        <div>
+          <label for="altPhone">Alternate phone</label>
+          <input id="altPhone" name="altPhone" type="tel" />
+        </div>
+      </div>
+      <label for="notes">Notes for delivery partner</label>
+      <textarea id="notes" name="notes" rows="2" placeholder="Gate code, pet warning, leave at doorstep, etc."></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Summary</legend>
+      <p class="total" id="priceSummary">Select a pack to see price per week and delivery breakdown.</p>
+    </fieldset>
+
+    <button type="submit">Submit subscription</button>
+  </form>
+
+  <script>
+    // Catalog from the flyer
+    const items = [
+      { id: 1, name: "Curry Leaves", small: "1 Bunch (2 times)", medium: "1 Bunch (2 times)", big: "1 Bunch (2 times)" },
+      { id: 2, name: "Coriander", small: "1 Bunch (2 times)", medium: "1 Bunch (2 times)", big: "1 Bunch (2 times)" },
+      { id: 3, name: "Garlic", small: "100 g", medium: "100 g", big: "100 g" },
+      { id: 4, name: "Ginger", small: "100 g", medium: "100 g", big: "100 g" },
+      { id: 5, name: "Green Chilli", small: "100 g (2 times)", medium: "200 g (2 times)", big: "200 g (2 times)" },
+      { id: 6, name: "Tomato", small: "1 kg", medium: "1.5 kg", big: "2 kg" },
+      { id: 7, name: "Onion", small: "1 kg", medium: "1.5 kg", big: "2 kg" },
+      { id: 8, name: "Carrot", small: "100 g", medium: "100 g", big: "100 g" },
+      { id: 9, name: "Green Peas", small: "50 g", medium: "100 g", big: "100 g" },
+      { id:10, name: "Lemon", small: "5 pcs", medium: "8 pcs", big: "10 pcs" },
+      { id:11, name: "Potato", small: "1/2 kg", medium: "750 g", big: "1 kg" },
+      { id:12, name: "Vegetable‑1", small: "1/2 kg (5 times)", medium: "750 g (5 times)", big: "1 kg (5 times)" },
+      { id:13, name: "Vegetable‑2", small: "1/2 kg (5 times)", medium: "750 g (5 times)", big: "1 kg (5 times)" },
+    ];
+
+    const excludeList = [
+      "Cabbage","Cauliflower","Brinjal (W/B)","Bhindi","Ivy Gourd","Drumstick","Raw Banana","Spinach",
+      "Sorrel Leaves","Amaranth","Bitter Gourd","Bottle Gourd","Ridge Gourd","Green Beans",
+      "Long Beans","Potals","Yellow Cucumber","Capsicum","Taro","Snake Gourd","Etc"
+    ];
+
+    function renderQuantities() {
+      const tbody = document.getElementById('qtyTableBody');
+      tbody.innerHTML = '';
+      items.forEach(it => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${it.id}</td>
+          <td>${it.name}</td>
+          <td>${it.small}</td>
+          <td>${it.medium}</td>
+          <td>${it.big}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const pack = document.getElementById('pack').value;
+      const priceSummary = document.getElementById('priceSummary');
+      const map = {
+        small: { price: 599, note: "Includes items above in small quantities with twice‑weekly greens." },
+        medium:{ price: 749, note: "Balanced quantities for a medium family; greens twice per week." },
+        big:   { price: 899, note: "Larger quantities for big families; greens twice per week." }
+      };
+      if (map[pack]) {
+        priceSummary.textContent = `Plan: ₹${map[pack].price}/week • ${map[pack].note}`;
+      } else {
+        priceSummary.textContent = 'Select a pack to see price per week and delivery breakdown.';
+      }
+    }
+
+    function renderExcludeChips() {
+      const cont = document.getElementById('excludeChips');
+      cont.innerHTML = '';
+      excludeList.forEach(v => {
+        const id = 'ex_' + v.replace(/[^a-z0-9]+/gi,'_');
+        const label = document.createElement('label');
+        label.className = 'chip';
+        label.innerHTML = `<input type="checkbox" name="exclude" value="${v}" id="${id}" onchange="limitExclude()"/> ${v}`;
+        cont.appendChild(label);
+      });
+    }
+
+    function limitExclude() {
+      const checks = Array.from(document.querySelectorAll('input[name="exclude"]'));
+      const selected = checks.filter(c => c.checked);
+      const limit = 5;
+      if (selected.length > limit) {
+        // Uncheck the last selection beyond limit
+        const last = selected.pop();
+        last.checked = false;
+      }
+      document.getElementById('excludeCount').textContent = `${selected.length} of 5 selected`;
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.name.value.trim(),
+        phone: form.phone.value.trim(),
+        email: form.email.value.trim(),
+        address: form.address.value.trim(),
+        landmark: form.landmark.value.trim(),
+        pincode: form.pincode.value.trim(),
+        pack: form.pack.value,
+        frequency: form.frequency.value,
+        startDate: form.startDate.value,
+        slot: form.slot.value,
+        altPhone: form.altPhone.value.trim(),
+        notes: form.notes.value.trim(),
+        exclude: Array.from(document.querySelectorAll('input[name="exclude"]:checked')).map(c => c.value)
+      };
+      // Replace this with real submit (fetch/POST). For now, preview JSON.
+      alert('Subscription captured:\\n\\n' + JSON.stringify(data, null, 2));
+      return false;
+    }
+
+    // Init
+    renderQuantities();
+    renderExcludeChips();
+  </script>
+</body>
+</html>
