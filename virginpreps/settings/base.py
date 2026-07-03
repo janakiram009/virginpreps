@@ -6,7 +6,7 @@ from decouple import config
 
 SECRET_KEY = config("SECRET_KEY")
 
-ALLOWED_HOSTS = ["127.0.0.1", "virginpreps.com", "virginpreps.in"]
+ALLOWED_HOSTS = ["127.0.0.1", "virginpreps.com", "virginpreps.in", "srinivasasnature.com", "www.srinivasasnature.com"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
