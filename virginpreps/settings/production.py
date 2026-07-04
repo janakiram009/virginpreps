@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ["virginpreps.com", "www.virginpreps.com", "210.79.129.39"]
+ALLOWED_HOSTS = ["virginpreps.com", "www.virginpreps.com", "srinivasasnature.com", "www.srinivasasnature.com"]
 
 # Production-specific settings
 # DATABASES = {
