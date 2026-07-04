@@ -1,30 +1,77 @@
-{% extends "oscar/checkout/checkout.html" %}
-{% load i18n %}
-
-{% block title %}
-    {% trans "Payment details" %} | {{ block.super }}
-{% endblock %}
-
-{% block checkout_nav %}
-    {% include 'oscar/checkout/nav.html' with step=3 %}
-{% endblock %}
-
-{% block checkout_title %}{% trans "Enter payment details" %}{% endblock %}
-
-{% block order_contents %}{% endblock %}
-{% block shipping_address %}{% endblock %}
-{% block shipping_method %}{% endblock %}
-{% block payment_method %}{% endblock %}
+{% extends 'oscar/checkout/checkout.html' %}
 
 {% block payment_details %}
-    {% block payment_details_content %}
-        <p>{% trans "This page needs implementing within your project.  You may want to use one of Oscar's payment gateway libraries:" %}</p>
-        <ul>
-            <li><a href="https://github.com/django-oscar/django-oscar-paypal">django-oscar-paypal</a></li>
-            <li><a href="https://github.com/django-oscar/django-oscar-adyen">django-oscar-adyen</a></li>
-            <li><a href="https://github.com/django-oscar/django-oscar-docdata">django-oscar-docdata</a></li>
-            <li><a href="https://github.com/django-oscar/django-oscar-accounts">django-oscar-accounts</a></li>
-        </ul>
-        <a id="view_preview" href="{% url 'checkout:preview' %}" class="btn btn-primary btn-lg">{% trans "Continue" %}</a>
-    {% endblock payment_details_content %}
-{% endblock payment_details %}
+  {% if messages %}
+    <div class="alert-container">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <button id="rzp-button" class="btn btn-primary">Pay with Razorpay</button>
+
+  <form id="razorpay-form" method="post" action="{% url 'checkout:razorpay-callback' %}">
+    {% csrf_token %}
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id" />
+    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" value="{{ razorpay_order_id }}" />
+    <input type="hidden" name="razorpay_signature" id="razorpay_signature" />
+  </form>
+
+  <p id="razorpay-status" class="text-muted" style="margin-top: 1rem;">Click the button to complete payment.</p>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var statusText = document.getElementById('razorpay-status')
+    var button = document.getElementById('rzp-button')
+    var amountValue = parseInt('{{ razorpay_amount }}', 10) || 0
+    
+    function setStatus(message) {
+      statusText.textContent = message
+    }
+    
+    var options = {
+      key: '{{ razorpay_key }}',
+      amount: amountValue,
+      currency: 'INR',
+      name: 'Virgin Preps',
+      description: 'Order Payment',
+      order_id: '{{ razorpay_order_id }}',
+      handler: function (response) {
+        setStatus('Payment successful. Completing checkout...')
+    
+        var parentDoc = window.parent && window.parent.document ? window.parent.document : document
+        var parentForm = parentDoc.getElementById('razorpay-form')
+    
+        if (parentForm) {
+          parentDoc.getElementById('razorpay_payment_id').value = response.razorpay_payment_id
+          parentDoc.getElementById('razorpay_order_id').value = response.razorpay_order_id
+          parentDoc.getElementById('razorpay_signature').value = response.razorpay_signature
+          parentForm.submit()
+        } else {
+          var callbackUrl = '{% url "checkout:razorpay-callback" %}?razorpay_payment_id=' + encodeURIComponent(response.razorpay_payment_id) + '&razorpay_order_id=' + encodeURIComponent(response.razorpay_order_id) + '&razorpay_signature=' + encodeURIComponent(response.razorpay_signature)
+          window.top.location.href = callbackUrl
+        }
+      },
+      modal: {
+        ondismiss: function () {
+          setStatus('Payment cancelled or closed. You can try again.')
+        }
+      },
+      theme: {
+        color: '#3399cc'
+      }
+    }
+    
+    var rzp = new Razorpay(options)
+    rzp.on('payment.failed', function (response) {
+      setStatus('Payment failed: ' + (response.error.description || 'Please try again.'))
+    })
+    
+    button.onclick = function (e) {
+      e.preventDefault()
+      setStatus('Opening Razorpay checkout...')
+      rzp.open()
+    }
+  </script>
+{% endblock %}
