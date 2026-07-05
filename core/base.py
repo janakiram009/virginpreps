@@ -171,5 +171,17 @@ AUTHENTICATION_BACKENDS = (
 RAZORPAY_KEY_ID = "rzp_live_T8EzsO6u4EAkTC"
 RAZORPAY_KEY_SECRET = "UVL7KDjxp89QPLMghBuiKEVC"
 
+<<<<<<< HEAD
 #RAZORPAY_KEY_ID = "rzp_test_T911PLZUCPxtCv"
 #RAZORPAY_KEY_SECRET = "iFvQ6H0au0szYhhwRvYzU6lm"
+=======
+RAZORPAY_KEY_ID = "rzp_test_T911PLZUCPxtCv"
+RAZORPAY_KEY_SECRET = "iFvQ6H0au0szYhhwRvYzU6lm"
+<<<<<<< HEAD
+
+EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+=======
+>>>>>>> 933b03957180fba2b5dc91bbd0cf2e23e0478bee
+>>>>>>> aeded283b6752278a531ca5f97ef04407fedf0bf
