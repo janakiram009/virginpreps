@@ -12,4 +12,7 @@ venv-oscar/
 venv/
 *.log
 *.zip
+<<<<<<< HEAD
 .venv
+=======
+>>>>>>> 933b03957180fba2b5dc91bbd0cf2e23e0478bee
