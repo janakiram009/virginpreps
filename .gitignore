@@ -12,3 +12,4 @@ venv-oscar/
 venv/
 *.log
 *.zip
+.venv
