@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['virginpreps.com']
+ALLOWED_HOSTS = ['virginpreps.com', 'www.virginpreps.com', 'srinivasasnature.com', 'www.srinivasasnature.com']
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
@@ -28,6 +28,9 @@ DATABASES = {
     }
 }
 
-RAZORPAY_KEY_ID = os.environ["RAZORPAY_KEY_ID"]
-RAZORPAY_KEY_SECRET = os.environ["RAZORPAY_KEY_SECRET"]
-RAZORPAY_WEBHOOK_SECRET = os.environ["RAZORPAY_WEBHOOK_SECRET"]
+# RAZORPAY_KEY_ID = os.environ["RAZORPAY_KEY_ID"]
+# RAZORPAY_KEY_SECRET = os.environ["RAZORPAY_KEY_SECRET"]
+# RAZORPAY_WEBHOOK_SECRET = os.environ["RAZORPAY_WEBHOOK_SECRET"]
+
+RAZORPAY_KEY_ID = "rzp_live_T8EzsO6u4EAkTC"
+RAZORPAY_KEY_SECRET = "UVL7KDjxp89QPLMghBuiKEVC"

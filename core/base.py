@@ -1,17 +1,12 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-o3jovm^fcn_84s41^8s56msca213+1a@%802iq!qdp0jbhbi+9')
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
-
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -105,7 +100,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -118,7 +112,6 @@ DATABASES = {
     }
 }
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -166,22 +159,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-# settings.py
-
-RAZORPAY_KEY_ID = "rzp_live_T8EzsO6u4EAkTC"
-RAZORPAY_KEY_SECRET = "UVL7KDjxp89QPLMghBuiKEVC"
-
-<<<<<<< HEAD
-#RAZORPAY_KEY_ID = "rzp_test_T911PLZUCPxtCv"
-#RAZORPAY_KEY_SECRET = "iFvQ6H0au0szYhhwRvYzU6lm"
-=======
-RAZORPAY_KEY_ID = "rzp_test_T911PLZUCPxtCv"
-RAZORPAY_KEY_SECRET = "iFvQ6H0au0szYhhwRvYzU6lm"
-<<<<<<< HEAD
-
 EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-=======
->>>>>>> 933b03957180fba2b5dc91bbd0cf2e23e0478bee
->>>>>>> aeded283b6752278a531ca5f97ef04407fedf0bf
